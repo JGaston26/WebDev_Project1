@@ -1,0 +1,118 @@
+<DOCTYPE html>
+    <html>
+        <head>
+            <title>Hot And Cold Project</title>
+            <style></style>
+            <script>
+                let num,totalGuesses,guess,oldGuesses,temperature,currentGuess,guessBox,guessLeft,hotOrColdBox,winOrLooseBox,wol
+                function initialize(){
+                    num = Math.floor(Math.random() * 50);
+                    totalGuesses = 5;
+                    guess = 50;
+                    oldGuesses = [];
+                    temperature = "No Temperature Yet";
+                    wol = "";
+                    currentGuess = document.getElementById("guesses");
+                    guessBox = document.getElementById("oldGuesses");
+                    guessesLeft = document.getElementById("guessLeft");
+                    hotOrColdBox = document.getElementById("hotOrCold");
+                    winOrLooseBox = document.getElementById("winOrLoose");
+                }
+                function changeCurrentGuess(int){
+                    guess += int;
+                    if(guess > 100 || guess < 0){
+                        guess = 50; 
+                    }
+                    console.log(guess);
+                    display();
+                }
+                function submitGuess(){
+                    if(totalGuesses > 0){
+                        oldGuesses.push(guess);
+                        if(Math.abs(guess - num <= 5 )){
+                            temperature = "Very Hot";
+                            }
+                             else if(Math.abs(guess - num <= 8)){
+                                temperature = "Hot";
+                            }
+                            else if(Math.abs(guess - num <= 15)){
+                                temperature = "Very Warm";
+                            }
+                            else if(Math.abs(guess - num <= 20)){
+                                temperature = "Warm";
+                            }
+                            else if(Math.abs(guess - num <= 30)){
+                                temperature = "Cool";
+                            }
+                            else if(Math.abs(guess - num <= 40)){
+                                temperature = "Very Cool";
+                            }
+                            else if(Math.abs(guess - num <= 55)){
+                                temperature = "Cold";
+                            }
+                            else{
+                                temperature = "Very Cold";
+                            }
+                        }
+                    if(totalGuesses == 0){
+                        totalGuesses = 0;
+                    }
+                    totalGuesses--;
+                winCondition();
+                display();
+                }
+                
+                function reset(){
+                    initialize();
+                    display();
+                }
+                function winCondition(){
+                    if(guess == num){
+                        wol = "You Won!";
+                        setTimeout(function(){window.close()},5000);
+                    }
+                    else if(totalGuesses == 0){
+                        wol = "You Lost :(";
+                        setTimeout(function(){window.close()},5000);
+                    }
+                }
+                function display(){
+                    currentGuess.innerHTML = guess;
+                    guessBox.innerHTML = oldGuesses.join(', ')
+                    guessesLeft.innerHTML = totalGuesses;
+                    hotOrColdBox.innerHTML = temperature;
+                    winOrLooseBox.innerHTML = wol;
+                    console.log(num)
+                }
+            </script>
+            
+        </head>
+        <body onload = "initialize();">
+            <h1>Hot Or Cold Number Guessing Game</h1>
+            <div id = "winOrLoose">Will you win or loose?????</div>
+            <span>Past Guesses: </span>
+            <span id = "oldGuesses"></span>
+            <br />
+            <span>Current Guess: </span>
+            <span id = "guesses">50</span>
+            <br />
+            <span>Guesses Left: </span>
+            <span id = "guessLeft"></span>
+            <br />
+            <span>Temperature: </span>
+            <span id = "hotOrCold"></span>
+        <hr />
+        <button onclick  = "changeCurrentGuess(-1);">-1</button>
+        <button onclick  = "changeCurrentGuess(-5);">-5</button>
+        <button onclick  = "changeCurrentGuess(-10);">-10</button>
+        <button onclick  = "changeCurrentGuess(-25);">-25</button>
+        <hr />
+        <button onclick  = "changeCurrentGuess(1);">1</button>
+        <button onclick  = "changeCurrentGuess(5);">5</button>
+        <button onclick  = "changeCurrentGuess(10);">10</button>
+        <button onclick  = "changeCurrentGuess(25);">25</button>
+        <hr />
+        <button onclick  = "submitGuess();">Submit Guess</button>
+        <button onclick  = "reset();">Reset</button>
+        </body>
+    </html>
